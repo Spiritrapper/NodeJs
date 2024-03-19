@@ -106,6 +106,7 @@ app.get('/api/users/logout', auth, (req, res) => {
 
 // {
 //   "email":"spiritrapper1125@gmail.com",
+
 //   "password":"1111111"
 // }
 
