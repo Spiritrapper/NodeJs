@@ -8,10 +8,10 @@ const config = require('./config/key');
 const { auth } = require('./middleware/auth'); 
 const { User } = require("./models/User");
 
-//application/x-www-form-urlencoded
+//application/x-www-form-urlencoded //이렇게 생긴 데이터 분석
 app.use(bodyParser.urlencoded({extended: true})); //클라이언트에오는 정보를 가져오는
 //
-//application/json  
+//application/json  // 분석해서 가져오기 req.body에 데이터를 넣기 가능토록 해준다
 app.use(bodyParser.json());
 app.use(cookieParser())
 
@@ -76,8 +76,8 @@ app.post('/api/users/register', async (req, res) => {
 
 app.post('/api/users/login', async (req, res) => {
     try {
-        // 요청된 이메일을 데이터베이스에서 있는지 찾는다.
-        const user = await User.findOne({ email: req.body.email });
+        // 1. 요청된 이메일을 데이터베이스에서 있는지 찾는다.
+        const user = await User.findOne({ email: req.body.email }); // 찾고자하는 메일 req.body.email
         console.log(user);
 
         if (!user) {
@@ -87,14 +87,14 @@ app.post('/api/users/login', async (req, res) => {
             });
         }
 
-        // 요청된 이메일이 데이터 베이스에 있다면 비밀번호가 맞는지 확인
-        const isMatch = await user.comparePassword(req.body.password);
+        // 2. 요청된 이메일이 데이터 베이스에 있다면 비밀번호가 맞는지 확인
+        const isMatch = await user.comparePassword(req.body.password); //User모델에서 확인된것
 
         if (!isMatch) {
             return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다." });
         }
 
-        // 비밀번호까지 맞다면 토큰을 생성하자
+        // 3. 비밀번호까지 맞다면 토큰을 생성하자
         await user.generateToken();
         console.log(user);
         // 토큰을 저장한다. 어디에 ? 쿠키 , 로컬스토리지

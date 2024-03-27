@@ -30,7 +30,8 @@ export default function withAuthCheck (SpecificComponent, option, adminRoute = n
                     }
                 }
             })
-        }, [dispatch, navigate, option, adminRoute]) // dispatch와 props.history를 종속성 배열에 추가
+        //}, [dispatch, navigate, option, adminRoute]) // dispatch와 props.history를 종속성 배열에 추가
+        }, [dispatch, navigate])
         return <SpecificComponent {...props} />; // props를 SpecificComponent로 전달
         
     }
