@@ -1,7 +1,14 @@
+import { NextRequest } from "next/server";
 import { comments } from "./data";
+import { comment } from "postcss";
 
-export const GET = async () => {
-    return Response.json(comments);
+export const GET = async (request: NextRequest) => {
+    const searchParams =request.nextUrl.searchParams
+    const query = searchParams.get("query")
+    const filterComments = query ?
+        comments.filter(comment => comment.text.includes(query)) :
+        comments
+    return Response.json(filterComments);
 }
 
 

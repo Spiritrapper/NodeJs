@@ -1,9 +1,14 @@
+import { redirect } from "next/navigation";
+import { comment } from "postcss";
 import { comments } from "../data";
 
 export const GET = async (
     _request: Request, 
     {params} : {params: {id: string}}
     )  => {
+        if( parseInt(params.id) > comments.length) {
+            redirect("/comments");
+        }
         const comment = comments.find( 
             (comment) => comment.id === parseInt(params.id)
         );
@@ -22,4 +27,17 @@ export async function PATCH(
     comments[index].text = text;
     //return new Response("GET handler");
     return Response.json(comments[index])
+}
+
+export async function DELETE(
+    request : Request, 
+    { params} : {params: {id: string}}
+    ) {
+    const index = comments.findIndex(
+        (comment) => comment.id === parseInt(params.id)
+    );
+    const deletedComment = comments[index];
+    comments.splice(index, 1);
+    return Response.json(deletedComment);
+    
 }
