@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import BarChart from "./BarChart";
+import BarChart from "./barChart";
 
 interface DashboardData {
     name: string;
@@ -18,7 +18,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         const fetchDashboardData = async () => {
-            const response = await fetch('/dashboard');
+            const response = await fetch('/api/dashboard');
             const data = await response.json();
             setDashboardData(data);
         }
